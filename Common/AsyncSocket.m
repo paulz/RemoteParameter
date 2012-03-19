@@ -932,7 +932,12 @@ static void MyCFWriteStreamCallback(CFWriteStreamRef stream, CFStreamEventType t
 		UInt16 chosenPort = [self localPort:theSocket4];
 		
 		struct sockaddr_in6 *pSockAddr6 = (struct sockaddr_in6 *)[address6 bytes];
-		pSockAddr6->sin6_port = htons(chosenPort);
+        if (pSockAddr6) {
+            pSockAddr6->sin6_port = htons(chosenPort);
+        } else {
+            [NSException raise:AsyncSocketException
+                        format:@"Failed to get IP6 socket address to set the port: %@", address6];
+        }
     }
 	
 	if (theSocket6)
@@ -3049,7 +3054,7 @@ Failed:
 			[self doAcceptWithSocket: *((CFSocketNativeHandle *)pData)];
 			break;
 		default:
-			NSLog (@"AsyncSocket %p received unexpected CFSocketCallBackType %d.", self, type);
+			NSLog (@"AsyncSocket %p received unexpected CFSocketCallBackType %d.", self, (int)type);
 			break;
 	}
 }
@@ -3080,7 +3085,7 @@ Failed:
 			[self closeWithError: [self errorFromCFStreamError:err]];
 			break;
 		default:
-			NSLog (@"AsyncSocket %p received unexpected CFReadStream callback, CFStreamEventType %d.", self, type);
+			NSLog (@"AsyncSocket %p received unexpected CFReadStream callback, CFStreamEventType %d.", self, (int)type);
 	}
 }
 
@@ -3110,7 +3115,7 @@ Failed:
 			[self closeWithError: [self errorFromCFStreamError:err]];
 			break;
 		default:
-			NSLog (@"AsyncSocket %p received unexpected CFWriteStream callback, CFStreamEventType %d.", self, type);
+			NSLog (@"AsyncSocket %p received unexpected CFWriteStream callback, CFStreamEventType %d.", self, (int)type);
 	}
 }
 

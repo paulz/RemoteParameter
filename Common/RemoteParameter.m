@@ -238,37 +238,37 @@ static NSString *UnavailableObject = @"UnavailableObject";
 	return singleton;
 }
 
--(id)init;
-{
-	vendedObjects = [NSMutableDictionary new];
-	
-	listenSocket = [[AsyncSocket alloc] initWithDelegate:self];
-	[listenSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-	NSError *err;
-	// TODO: Just find a free port and use that. Doesn't matter which.
-	if(![listenSocket acceptOnPort:ParameterServerPort error:&err])
-		NSLog(@"%@", err);
-	
-	workers = [[NSMutableArray alloc] init];
-	
-	NSString *deviceName = nil;
+- (id)init {
+    self = [super init];
+    if (self) {
+        vendedObjects = [NSMutableDictionary new];
+        
+        listenSocket = [[AsyncSocket alloc] initWithDelegate:self];
+        [listenSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+        NSError *err;
+        // TODO: Just find a free port and use that. Doesn't matter which.
+        if(![listenSocket acceptOnPort:ParameterServerPort error:&err])
+            NSLog(@"%@", err);
+        
+        workers = [[NSMutableArray alloc] init];
+        
+        NSString *deviceName = nil;
 #if defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
 		deviceName = [UIDevice currentDevice].name;
 #else
 		deviceName = [(id)SCDynamicStoreCopyComputerName(NULL,NULL) autorelease];
 #endif
-	
-	NSString *name = [NSString stringWithFormat:@"%@: %@ <%d>",
-		deviceName,
-		[NSProcessInfo processInfo].processName,
-		[NSProcessInfo processInfo].processIdentifier
-	];
-
-	publisher = [[NSNetService alloc] initWithDomain:@"" type:BonjourType name:name port:ParameterServerPort];
-	[publisher publish];
-	
-	
-	return self;
+        
+        NSString *name = [NSString stringWithFormat:@"%@: %@ <%d>",
+                          deviceName,
+                          [NSProcessInfo processInfo].processName,
+                          [NSProcessInfo processInfo].processIdentifier
+                          ];
+        
+        publisher = [[NSNetService alloc] initWithDomain:@"" type:BonjourType name:name port:ParameterServerPort];
+        [publisher publish];
+    }
+    return self;
 }
 
 -(void)shareKeyPath:(NSString*)path ofObject:(id)object named:(NSString*)name;
@@ -510,20 +510,24 @@ static NSString *UnavailableObject = @"UnavailableObject";
 {
 	[browser searchForServicesOfType:BonjourType inDomain:@""];
 }
+
 -(id)initWithService:(NSNetService*)service;
 {
-	self.socket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
-	[self.socket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
-
-	NSError *err;
-	if(![socket connectToAddress:[service.addresses objectAtIndex:0] error:&err]) {
-		//[NSApp presentError:err];
-		[self release];
-		return nil;
-	}
-	
-	return self;
+    self = [super init];
+    if (self) {
+        self.socket = [[[AsyncSocket alloc] initWithDelegate:self] autorelease];
+        [self.socket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];
+        
+        NSError *err;
+        if(![socket connectToAddress:[service.addresses objectAtIndex:0] error:&err]) {
+            //[NSApp presentError:err];
+            [self release];
+            return nil;
+        }
+    }
+    return self;
 }
+
 -(void)dealloc;
 {
 	self.socket = nil;
