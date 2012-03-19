@@ -43,7 +43,7 @@
 - (void)netServiceDidResolveAddress:(NSNetService *)service;
 {
 	ParameterClient *client = [[[ParameterClient alloc] initWithService:service] autorelease];
-	ClientController *controller = [(ClientController*)[ClientController alloc] initWithClient:client];
+	ClientController *controller = [[(ClientController*)[ClientController alloc] initWithClient:client] autorelease];
 	[controller showWindow:nil];
 }
 - (void)netService:(NSNetService *)sender didNotResolve:(NSDictionary *)errorDict;

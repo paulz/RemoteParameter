@@ -19,16 +19,16 @@
 
 -(id)initWithClient:(ParameterClient*)client_;
 {
-	if(![super initWithWindowNibName:@"ClientController"])
-		return nil;
-	keys = [NSMutableArray new];
-	values = [NSMutableArray new];
-	
-	self.client = client_;
-	self.client.delegate = self;
-	
-	oldIndex = -1;
-	
+    self = [super initWithWindowNibName:@"ClientController"];
+    if (self) {
+        keys = [NSMutableArray new];
+        values = [NSMutableArray new];
+        
+        self.client = client_;
+        self.client.delegate = self;
+        
+        oldIndex = -1;
+    }
 	return self;
 }
 -(void)dealloc;

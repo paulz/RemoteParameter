@@ -24,12 +24,13 @@ static NSMutableDictionary *editors() {
 
 -(id)initForIndex:(NSInteger)idx onObject:(id)object;
 {
-	if(![super initWithFrame:NSZeroRect]) return nil;
-	
-	parent = object;
-	watchedIndex = idx;
-	
-	[self performSelector:@selector(setup) withObject:nil afterDelay:0];
+    self = [super initWithFrame:NSZeroRect];
+    if (self) {
+        parent = object;
+        watchedIndex = idx;
+        
+        [self performSelector:@selector(setup) withObject:nil afterDelay:0];
+    }
 	return self;
 }
 -(void)setup;
@@ -87,15 +88,14 @@ static NSMutableDictionary *editors() {
 }
 -(id)initForIndex:(NSInteger)idx onObject:(id)object;
 {
-	if(![super initForIndex:idx onObject:object]) return nil;
-	
-	field = [[[NSTextField alloc] initWithFrame:(NSRect){.origin={0,0}, .size=self.frame.size}] autorelease];
-	[self addSubview:field];
-	[field setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-	[field setTarget:self];
-	[field setAction:@selector(sendValue:)];
-	
-	
+    self = [super initForIndex:idx onObject:object];
+    if (self) {
+        field = [[[NSTextField alloc] initWithFrame:(NSRect){.origin={0,0}, .size=self.frame.size}] autorelease];
+        [self addSubview:field];
+        [field setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [field setTarget:self];
+        [field setAction:@selector(sendValue:)];
+    }
 	return self;
 }
 -(void)valueChanged:(id)value;
@@ -137,46 +137,46 @@ static NSMutableDictionary *editors() {
 {
 	[slider setContinuous:[sender state]];
 }
+
 -(id)initForIndex:(NSInteger)idx onObject:(id)object;
 {
-	if(![super initForIndex:idx onObject:object]) return nil;
-	
-	self.frame = (NSRect){.size = {200, 100}};
-	
-	slider = [[[NSSlider alloc] initWithFrame:NSMakeRect(50, 10, 100, 20)] autorelease];
-	[slider setAutoresizingMask:NSViewWidthSizable];
-	[self addSubview:slider];
-	[slider setTarget:self];
-	[slider setAction:@selector(sendValue:)];
-	
-	current = [[[NSTextField alloc] initWithFrame:NSMakeRect(50, 30, 100, 20)] autorelease];
-	[current setAutoresizingMask:NSViewWidthSizable];
-	[self addSubview:current];
-	[current setTarget:self];
-	[current setAction:@selector(sendValue:)];
-
-	min = [[[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 30, 20)] autorelease];
-	[self addSubview:min];
-	[min setTarget:self];
-	[min setAction:@selector(setMin:)];
-	[min setFloatValue:slider.minValue];
-
-	max = [[[NSTextField alloc] initWithFrame:NSMakeRect(160, 10, 30, 20)] autorelease];
-	[max setAutoresizingMask:NSViewMinXMargin];
-	[self addSubview:max];
-	[max setTarget:self];
-	[max setAction:@selector(setMax:)];
-	[max setFloatValue:slider.maxValue];
-	
-	continuous = [[[NSButton alloc] initWithFrame:NSMakeRect(50, 50, 100, 20)] autorelease];
-	[continuous setButtonType:NSSwitchButton];
-	[continuous setTitle:@"Continuous"];
-	[self addSubview:continuous];
-	[continuous setTarget:self];
-	[continuous setAction:@selector(setContinuous:)];
-	[continuous setState:[slider isContinuous]];
-	
-	
+    self = [super initForIndex:idx onObject:object];
+    if (self) {
+        self.frame = (NSRect){.size = {200, 100}};
+        
+        slider = [[[NSSlider alloc] initWithFrame:NSMakeRect(50, 10, 100, 20)] autorelease];
+        [slider setAutoresizingMask:NSViewWidthSizable];
+        [self addSubview:slider];
+        [slider setTarget:self];
+        [slider setAction:@selector(sendValue:)];
+        
+        current = [[[NSTextField alloc] initWithFrame:NSMakeRect(50, 30, 100, 20)] autorelease];
+        [current setAutoresizingMask:NSViewWidthSizable];
+        [self addSubview:current];
+        [current setTarget:self];
+        [current setAction:@selector(sendValue:)];
+        
+        min = [[[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 30, 20)] autorelease];
+        [self addSubview:min];
+        [min setTarget:self];
+        [min setAction:@selector(setMin:)];
+        [min setFloatValue:slider.minValue];
+        
+        max = [[[NSTextField alloc] initWithFrame:NSMakeRect(160, 10, 30, 20)] autorelease];
+        [max setAutoresizingMask:NSViewMinXMargin];
+        [self addSubview:max];
+        [max setTarget:self];
+        [max setAction:@selector(setMax:)];
+        [max setFloatValue:slider.maxValue];
+        
+        continuous = [[[NSButton alloc] initWithFrame:NSMakeRect(50, 50, 100, 20)] autorelease];
+        [continuous setButtonType:NSSwitchButton];
+        [continuous setTitle:@"Continuous"];
+        [self addSubview:continuous];
+        [continuous setTarget:self];
+        [continuous setAction:@selector(setContinuous:)];
+        [continuous setState:[slider isContinuous]];
+    }
 	return self;
 }
 -(void)valueChanged:(id)value;
@@ -204,15 +204,14 @@ static NSMutableDictionary *editors() {
 }
 -(id)initForIndex:(NSInteger)idx onObject:(id)object;
 {
-	if(![super initForIndex:idx onObject:object]) return nil;
-	
-	well = [[[NSColorWell alloc] initWithFrame:(NSRect){.origin={0,0}, .size=self.frame.size}] autorelease];
-	[self addSubview:well];
-	[well setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-	[well setTarget:self];
-	[well setAction:@selector(sendValue:)];
-	
-	
+    self = [super initForIndex:idx onObject:object];
+    if (self) {
+        well = [[[NSColorWell alloc] initWithFrame:(NSRect){.origin={0,0}, .size=self.frame.size}] autorelease];
+        [self addSubview:well];
+        [well setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [well setTarget:self];
+        [well setAction:@selector(sendValue:)];
+    }	
 	return self;
 }
 -(void)valueChanged:(id)value;
@@ -237,27 +236,27 @@ static NSMutableDictionary *editors() {
 
 -(id)initWithFrame:(NSRect)r;
 {
-	if(![super initWithFrame:r]) return nil;
-	
-	[self setWantsLayer:YES];
-	self.layer = [CALayer layer];
-	self.layer.geometryFlipped = YES;
-	rect = [CALayer layer];
-	rect.frame = CGRectMake(0, 0, 20, 20);
-	[self.layer addSublayer:rect];
-	rect.backgroundColor = (CGColorRef)[(id)CGColorCreateGenericRGB(.4, .5, .4, .9) autorelease];
-	
-	tl = [CALayer layer]; tl.frame = CGRectMake(-5, -5, 10, 10);
+    self = [super initWithFrame:r];
+    if (self) {
+        [self setWantsLayer:YES];
+        self.layer = [CALayer layer];
+        self.layer.geometryFlipped = YES;
+        rect = [CALayer layer];
+        rect.frame = CGRectMake(0, 0, 20, 20);
+        [self.layer addSublayer:rect];
+        rect.backgroundColor = (CGColorRef)[(id)CGColorCreateGenericRGB(.4, .5, .4, .9) autorelease];
+        
+        tl = [CALayer layer]; tl.frame = CGRectMake(-5, -5, 10, 10);
 		[rect addSublayer:tl]; tl.autoresizingMask = kCALayerMaxXMargin|kCALayerMaxYMargin;
-	tr = [CALayer layer]; tr.frame = CGRectMake(15, -5, 10, 10);
+        tr = [CALayer layer]; tr.frame = CGRectMake(15, -5, 10, 10);
 		[rect addSublayer:tr]; tr.autoresizingMask = kCALayerMinXMargin|kCALayerMaxYMargin;
-	bl = [CALayer layer]; bl.frame = CGRectMake(-5, 15, 10, 10);
+        bl = [CALayer layer]; bl.frame = CGRectMake(-5, 15, 10, 10);
 		[rect addSublayer:bl]; bl.autoresizingMask = kCALayerMaxXMargin|kCALayerMinYMargin;
-	br = [CALayer layer]; br.frame = CGRectMake(15, 15, 10, 10);
+        br = [CALayer layer]; br.frame = CGRectMake(15, 15, 10, 10);
 		[rect addSublayer:br]; br.autoresizingMask = kCALayerMinXMargin|kCALayerMinYMargin;
-	tl.backgroundColor = tr.backgroundColor = bl.backgroundColor = br.backgroundColor = 
+        tl.backgroundColor = tr.backgroundColor = bl.backgroundColor = br.backgroundColor = 
 		(CGColorRef)[(id)CGColorCreateGenericRGB(.4, .4, .6, .9) autorelease];
-	
+    }
 	return self;
 }
 -(NSRect)rect;
@@ -379,15 +378,14 @@ static NSMutableDictionary *editors() {
 }
 -(id)initForIndex:(NSInteger)idx onObject:(id)object;
 {
-	if(![super initForIndex:idx onObject:object]) return nil;
-	
-	rect = [[[RectControl alloc] initWithFrame:(NSRect){.origin={0,0}, .size=self.frame.size}] autorelease];
-	[self addSubview:rect];
-	[rect setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-	[rect setTarget:self];
-	[rect setAction:@selector(sendValue:)];
-	
-	
+    self = [super initForIndex:idx onObject:object];
+    if (self) {
+        rect = [[[RectControl alloc] initWithFrame:(NSRect){.origin={0,0}, .size=self.frame.size}] autorelease];
+        [self addSubview:rect];
+        [rect setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [rect setTarget:self];
+        [rect setAction:@selector(sendValue:)];
+    }
 	return self;
 }
 -(void)valueChanged:(id)value;
